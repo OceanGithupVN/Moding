@@ -1,0 +1,108 @@
+??? "tiêu đề"
+    ``` cpp
+    #include <iostream>
+    #include <string>
+    #include <cstdlib>
+    #include <ctime>
+    using namespace std;
+    
+    class Character {
+    private:
+        string name;
+        int health;
+        int power;
+        int energy;
+    
+    public:
+        Character(string n, int h, int p, int e) : name(n), health(h), power(p), energy(e) {}
+    
+        void attack(Character &opponent) {
+            if (energy >= 10) {
+                cout << name << " tan cong " << opponent.name << " voi mot don manh me!" << endl;
+                opponent.health -= power;
+                energy -= 10;
+                cout << opponent.name << " con " << opponent.health << " mau." << endl;
+            } else {
+                cout << "Khong du nang luong de tan cong!" << endl;
+            }
+        }
+    
+        void recoverEnergy() {
+            energy += 20;
+            cout << name << " phuc hoi 20 nang luong!" << endl;
+        }
+    
+        void showStats() {
+            cout << "Ten: " << name << ", Mau: " << health << ", Suc manh: " << power << ", Nang luong: " << energy << endl;
+        }
+    
+        bool isAlive() {
+            return health > 0;
+        }
+    
+        string getName() { return name; }
+        int getHealth() { return health; }
+        int getEnergy() { return energy; }
+    };
+    
+    void showMenu() {
+        cout << "1. Tan cong" << endl;
+        cout << "2. Phuc hoi nang luong" << endl;
+        cout << "3. Xem thong tin nhan vat" << endl;
+        cout << "4. Thoat" << endl;
+    }
+    
+    int main() {
+        srand(time(0));
+    
+        Character goku("Goku", 100, 20, 50);
+        Character vegeta("Vegeta", 100, 18, 50);
+    
+        while (goku.isAlive() && vegeta.isAlive()) {
+            cout << "\n*** Tran chien giua " << goku.getName() << " va " << vegeta.getName() << " ***" << endl;
+            showMenu();
+    
+            int choice;
+            cout << "Chon hanh dong: ";
+            cin >> choice;
+    
+            switch (choice) {
+                case 1:
+                    goku.attack(vegeta);
+                    if (vegeta.isAlive()) {
+                        vegeta.attack(goku);
+                    }
+                    break;
+    
+                case 2:
+                    goku.recoverEnergy();
+                    break;
+    
+                case 3:
+                    goku.showStats();
+                    vegeta.showStats();
+                    break;
+    
+                case 4:
+                    cout << "Thoat tro choi." << endl;
+                    return 0;
+    
+                default:
+                    cout << "Lua chon khong hop le." << endl;
+                    break;
+            }
+    
+            if (!goku.isAlive()) {
+                cout << goku.getName() << " da bi danh bai. " << vegeta.getName() << " chien thang!" << endl;
+                break;
+            }
+    
+            if (!vegeta.isAlive()) {
+                cout << vegeta.getName() << " da bi danh bai. " << goku.getName() << " chien thang!" << endl;
+                break;
+            }
+        }
+    
+        return 0;
+    }
+    ```
